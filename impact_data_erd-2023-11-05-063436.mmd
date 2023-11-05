@@ -1,0 +1,62 @@
+erDiagram
+
+    
+    PARTICIPANT{
+        INTEGER participant_id PK
+        VARCHAR participant_name
+        VARCHAR gender
+        DATE date_of_birth
+    }
+
+    PARTNER{
+        INTEGER partner_id PK
+        VARCHAR partner_organization
+        VARCHAR organization_type
+    }
+    
+    PROGRAM{
+        INTEGER program_id PK
+        VARCHAR program_name
+        VARCHAR description
+    }
+
+    PROJECT{
+        INTEGER project_id PK
+        INTEGER program_id FK
+        VARCHAR project_name
+        DATE project_start_date
+        DATE project_end_date
+        VARCHAR project_status
+    }
+
+    LOCATION{
+        INTEGER location_id PK
+        VARCHAR continent
+        VARCHAR country
+        VARCHAR state_or_county
+        VARCHAR district_or_region
+        VARCHAR city_or_town
+        VARCHAR location_type "Rural or Urban"
+    }
+
+    SUSTAINABLE_DEVELOPMENT_GOAL{
+        INTEGER sdg_id PK
+        VARCHAR sdg_name
+        VARCHAR sdg_description
+    }
+
+    CARE_CHANGE{
+        INTEGER c_id
+        INTEGER participant_id FK
+        INTEGER project_id FK
+        INTEGER location_id FK
+        VARCHAR reach "Direct or Indirect"
+        VARCHAR sdg_id FK
+    }
+
+PARTICIPANT ||--|{ CARE_CHANGE : impacted_by
+CARE_CHANGE }o--|| LOCATION : in
+PARTNER ||--o{ PROJECT : support
+PROGRAM ||--|{ PROJECT : has
+PROJECT ||--|{ CARE_CHANGE : responsible_for
+CARE_CHANGE ||--o{ SUSTAINABLE_DEVELOPMENT_GOAL : impact_on
